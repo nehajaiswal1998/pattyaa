@@ -1,86 +1,63 @@
-package Pages;
+package WebDriverProject;
 
-import static org.testng.Assert.assertEquals;
-
-import java.util.concurrent.TimeUnit;
+import org.junit.Assert;
 
 import org.openqa.selenium.By;
 
 import org.openqa.selenium.WebDriver;
 
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
-import org.testng.annotations.AfterTest;
-
-import org.testng.annotations.BeforeTest;
-
-import org.testng.annotations.Test;
-
-public class LoginPage {
-
-    
+public class LoginClass {
 
     WebDriver driver;
 
     @BeforeTest
 
-    public void setUp() {
+             public void setup(){
 
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Shalini\\Downloads\\chrom86_driver\\chromedriver.exe");
-
-        driver = new ChromeDriver();
-
-    }
-
-    
-
-    public void login() {
-
-        String login_url = "https://opensource-demo.orangehrmlive.com/";
-
-        driver.get(login_url);
+    System.setProperty("WebDriver.gecko.driver","C:\\Users\\shalini\\Downloads\\geckodriver-v0.26.0-win64\\geckodriver.exe");
 
         
 
-        driver.manage().window().maximize();
-
-        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-
-        driver.findElement(By.id("txtUsername")).sendKeys("Admin");
-
-        driver.findElement(By.id("txtPassword")).sendKeys("admin123");
-
-        System.out.println(driver.getTitle());
+        driver = new FirefoxDriver();                    //initialise the WebDriver
 
     }
 
-    
+            @Test
 
-    @Test
+                         public void loginTest(){   
 
-    public void dashboard() {
+        driver.get("https://opensource-demo.orangehrmlive.com/"); //define the url
+
+    String pageTitle = driver.getTitle();       //get the title of the webpage
+
+    System.out.println("The title of this page is ===> " +pageTitle);
+
+    Assert.assertEquals("OrangeHRM", pageTitle);    //verify the title of the webpage
 
         
 
-        driver.findElement(By.id("menu_dashboard_index")).click();
+        driver.findElement(By.id("txtUsername")).clear();//clear the input field before entering any value
 
-        String textPresent = driver.findElement(By.xpath("//*[@id=\"content\"]/div/div[1]/h1")).getText();
-        String textToBePresent = "DashBoard";
+        driver.findElement(By.id("txtUsername")).sendKeys("Admin");//enter the value of username
 
-        assertEquals(textPresent, textToBePresent);
+        driver.findElement(By.id("txtPassword")).clear();
 
-    }
+        driver.findElement(By.id("txtPassword")).sendKeys("admin123");//enter the value of password
 
-    
+        driver.findElement(By.id("btnLogin")).click();      //click Login button
 
-    
+        System.out.println(“Successfully logged in”);
 
-    @AfterTest
+}
 
-    public void tearDown() {
+@AfterTest
 
-            driver.quit();
+             public void teardown(){
 
-    }
+        driver.quit();
+
+}
 
 }
