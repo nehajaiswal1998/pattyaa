@@ -18,7 +18,7 @@
 
 <classes>
 
-<class name="Pages.LoginPage">
+<class name=" WebDriverProject.LoginClass">
 
 </class>
 
